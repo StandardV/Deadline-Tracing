@@ -1,15 +1,3 @@
-#deadline count down input and set time by user
-
-#there should be one button set time and 1 button to assign that time either to 1 or all objects
-
-# have a big client, can be connected in web
-
-#should check if javascript can parse python in here and show in web
-
-#sorting option to put all of the closest deadline together or group it by user choic
-
-#should have a time counterdown next to the object, can hide or show it, mostly show by day
-
 import tkinter as tk
 import tkinter.ttk
 import time
@@ -19,8 +7,43 @@ onespace = " "
 longspace = "                                                                                    "
 shortspace = "        "
 x = 0
+#research
+#https://www.geeksforgeeks.org/changing-the-colour-of-tkinter-menu-bar/ 
+#https://stackoverflow.com/questions/23836000/can-i-change-the-title-bar-in-tkinter
 
+def oddseparator(num):
+    if (num%2) ==0 and num !=1 :
+        return True
+    else:
+        return False
+
+class readandwrite:
+    def typein():#check for time condition if work first
+        file1 = open('Customer.txt', 'w')
+        file1.writelines(("Hello there"))
+        file1.close()
+
+    def readday():
+        file1 = open('Customer.txt', 'r')
+        Lines = file1.readlines()
+        count = 0
+        for line in Lines:
+            global x
+            global y
+            count += 1
+            #print("Line{}: {}".format(count, line.strip()))#format print :count: number , line.strip() : Line details
+            horizontal.customize(line.strip())
+            horizontal.longspace();horizontal.smallspace()
+            print(count)
+            if oddseparator(count) == True:
+                y+=1;horizontal.separator();y+=1;x=0
+            print(oddseparator(count),line.strip(),x,y)           
+
+    
 class horizontal:
+    def customize(h):
+        global x
+        tk.Label(root, text = h, pady = 10).grid(row = y ,column = x);x+=1
     def longspace():
         global x
         tk.Label(root, text = longspace).grid(row = y ,column = x);x+=1
@@ -35,17 +58,18 @@ class horizontal:
 
     def separator():
         global x
-        tkinter.ttk.Separator(root, orient='horizontal').grid(row=y, columnspan=10, sticky=tk.EW);x+1
+        tkinter.ttk.Separator(root, orient='horizontal').grid(row=y, columnspan=6, sticky=tk.EW);x+1
 
 
 root = tk.Tk()
+root.geometry('615x550')
 root.resizable(False, False)
 root.configure(bg="#e6f2ee")
+
 
 #row1***
 x=1
 y=0
-print(root)
 
 Label1 = tk.Label(root, text = " Deadline Warner!!! ", bg="grey", fg="white")
 Label1.grid(row = 0 ,column = 0)
@@ -69,8 +93,8 @@ horizontal.separator()
 x=0;y=2
 
 horizontal.entry()
-tk.Radiobutton(text="Change time" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
-tk.Radiobutton(text="Change time" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
+tk.Radiobutton(text="Add details" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
+tk.Radiobutton(text="Remove details" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
 
 #row4***
 x=0;y=3
@@ -78,8 +102,7 @@ horizontal.separator()
 
 #row5***
 x=0;y=4
-horizontal.entry()
-
+readandwrite.readday()
 
 root.mainloop()
 
