@@ -1,3 +1,4 @@
+from ast import Delete
 from cProfile import label
 from pickletools import read_float8
 import tkinter as tk
@@ -49,19 +50,24 @@ def appendlist():
 
 
 class readandwrite:
-    #def removal(i):
-    #    with open(r"D:\Largecodefile\Customer.txt", "r") as f:
-    #        lines = f.readlines()
-    #    h,j = i-2,i-1
-    #    data1, data2 = lines[h],lines[j]
-    #    print(h,j)
-    #    print('line is ',lines)
-    #    with open(r"D:\Largecodefile\Customer.txt", "w") as f:
-    #        for line in lines:
-    #            if line != data1 and line != data2:
-    #                f.write(line)
     def removal(i):
-        with open(r"D:\Largecodefile\Customer.txt", 'r+', newline='') as f:
+        with open("Customer.txt", "r") as f:
+            lines = f.readlines()
+        h,j = i-2,i-1
+        #data1, data2 = lines[h],lines[j]
+        #print(h,j)
+        #print('line is ',lines)
+        with open("Customer.txt", "w") as f:
+            for i in range(0,2):
+                f.seek(0)
+                count=0
+                for line in lines:
+                    if count != j and count != h:
+                        f.write(line)
+                    count+=1
+        readandwrite.striplastline()
+    def removals(i):
+        with open("Customer.txt", 'r+', newline='') as f:
             lines = f.read().splitlines()
             h, j = i-2, i-1
             # validation here is critical
@@ -75,31 +81,31 @@ class readandwrite:
         readandwrite.striplastline()
 
     def striplastline():   
-        with open(r"D:\Largecodefile\Customer.txt", "r") as f:
+        with open("Customer.txt", "r") as f:
             lines = f.readlines() 
         data = lines[-1].strip('\n')
         lines[-1] = data
-        with open(r"D:\Largecodefile\Customer.txt", "w") as f:
+        with open("Customer.txt", "w") as f:
             f.writelines(lines)
 
     def addval():
-        file = open(r"D:\Largecodefile\Customer.txt", 'a')
+        file = open("Customer.txt", 'a')
 
         file.write(f"\n{text1.get()}\n(add value)")
         file.close()
 
     def typein(h):
-        print("**********h is ",h)
-        with open(r"D:\Largecodefile\Customer.txt", 'r', encoding='utf-8') as file:
+        #print("**********h is ",h)
+        with open("Customer.txt", 'r', encoding='utf-8') as file:
             data = file.readlines()
 
-        print('text get is',text.get())
+        #print('text get is',text.get())
         if h-1 == len(data)-1:
             data[h-1] = f"{text.get()}"#
         else:
             data[h-1] = f"{text.get()}\n"
 
-        with open(r"D:\Largecodefile\Customer.txt", 'w', encoding='utf-8') as file:
+        with open("Customer.txt", 'w', encoding='utf-8') as file:
             file.writelines(data)
         file.close()
         
@@ -108,17 +114,18 @@ class readandwrite:
         global count
         global item
         item=0##responsible for incrementing list value
+        selected = []
         ######selected = []  UNMARK THIS TO TUNR THINGS TO NORMAL
         if len(selected) ==0:
             appendlist()
-        file1 = open(r"D:\Largecodefile\Customer.txt", 'r')
+        file1 = open("Customer.txt", 'r')
         Lines = file1.readlines()
         count = 0
         for line in Lines:
             global frame
             global x
             global y
-            count += 1
+            count += 1#append item in lista against since that'd cause index bug
             #print("Line{}: {}".format(count, line.strip()))#format print :count: number , line.strip() : Line details
             horizontal.customize(line.strip())
             horizontal.longspace(1)
@@ -134,12 +141,19 @@ class readandwrite:
 #function for command or additional properties
 class fun():
     def removing():
+        count=0
         for i in range (0,len(selected)):
+            print('count as',count)
             if selected[i].get() == 1:
-                val=(i+1)*2
+                print('entering count at',count)
+                val=(i-count+1)*2
                 readandwrite.removal(val)
+                count +=1
+                #remove 1 value from list and startted scanning i at the same location( since already removed 1 check button value)           
         frame.destroy()
         run()
+
+
     def add():
         if len(text1.get()) !=0:
             readandwrite.addval()
@@ -147,7 +161,7 @@ class fun():
             run()
     def replace():
         for i in range (0,len(selected)):
-            print('i currently is ',i,'and list length', len(selected))
+            #print('i currently is ',i,'and list length', len(selected))
             if selected[i].get() == 1:
                 val=(i+1)*2
                 readandwrite.typein(val)   
@@ -266,4 +280,3 @@ run()
 
 
 root.mainloop()
-
