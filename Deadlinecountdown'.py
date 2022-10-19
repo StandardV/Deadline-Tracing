@@ -45,6 +45,7 @@ def countline():
 
 def appendlist():
     global var1
+    var1=[]
     for i in range (0,int(countline()/2)):
         var1.append(0)
 
@@ -54,9 +55,6 @@ class readandwrite:
         with open("Customer.txt", "r") as f:
             lines = f.readlines()
         h,j = i-2,i-1
-        #data1, data2 = lines[h],lines[j]
-        #print(h,j)
-        #print('line is ',lines)
         with open("Customer.txt", "w") as f:
             for i in range(0,2):
                 f.seek(0)
@@ -66,6 +64,9 @@ class readandwrite:
                         f.write(line)
                     count+=1
         readandwrite.striplastline()
+        #for i in range(0,2):
+        #    del selected[j]
+
     def removals(i):
         with open("Customer.txt", 'r+', newline='') as f:
             lines = f.read().splitlines()
@@ -101,7 +102,7 @@ class readandwrite:
 
         #print('text get is',text.get())
         if h-1 == len(data)-1:
-            data[h-1] = f"{text.get()}"#
+            data[h-1] = f"{text.get()}"#1 problem here, proably items or list length again
         else:
             data[h-1] = f"{text.get()}\n"
 
@@ -114,10 +115,9 @@ class readandwrite:
         global count
         global item
         item=0##responsible for incrementing list value
-        selected = []
         ######selected = []  UNMARK THIS TO TUNR THINGS TO NORMAL
-        if len(selected) ==0:
-            appendlist()
+        
+        appendlist()
         file1 = open("Customer.txt", 'r')
         Lines = file1.readlines()
         count = 0
@@ -141,15 +141,25 @@ class readandwrite:
 #function for command or additional properties
 class fun():
     def removing():
+        #global selected
         count=0
+        listdel = []
         for i in range (0,len(selected)):
             print('count as',count)
             if selected[i].get() == 1:
-                print('entering count at',count)
+                listdel.append(i)
                 val=(i-count+1)*2
                 readandwrite.removal(val)
                 count +=1
-                #remove 1 value from list and startted scanning i at the same location( since already removed 1 check button value)           
+                #remove 1 value from list and startted scanning i at the same location( since already removed 1 check button value)
+        #count = 0
+        #for j in range (0,len(listdel)):
+        #    print('selected is',selected)   #BUG DETECTED, GOTTA MOVE ALL THE KEYNAME UP 1 VALUE
+        #                                    #print('listdel - count at',listdel[j]-count)#This logic is supposed to delete same value twice in order to calculate the step up, but in reality it actually delete 2,3
+        #                                    #print(listdel)
+        #    del selected[listdel[j]]         #definetly cause problem for 2 value and above if use listdel[i]-count for calculating the step up
+        #    count+=1                         #this is because listdel will leave that index blank until we finished the calculation
+        #                                    #selected = {} #already perfectly re declared things but need further monitor
         frame.destroy()
         run()
 
@@ -160,13 +170,16 @@ class fun():
             frame.destroy()
             run()
     def replace():
-        for i in range (0,len(selected)):
-            #print('i currently is ',i,'and list length', len(selected))
-            if selected[i].get() == 1:
-                val=(i+1)*2
-                readandwrite.typein(val)   
-        frame.destroy()          
-        run()
+        if len(text.get()) != 0:
+            print('selected is',len(selected))#need to fix current selected took old values
+            print('item is ',item)
+            for i in range (0,len(selected)):
+                #print('i currently is ',i,'and list length', len(selected))
+                if selected[i].get() == 1:
+                    val=(i+1)*2
+                    readandwrite.typein(val)   
+            frame.destroy()          
+            run()
 
             
 
@@ -221,9 +234,9 @@ class horizontal:
     def separator(z):
         global x
         if z ==0:
-            tkinter.ttk.Separator(root, orient='horizontal').grid(row=y, columnspan=6, sticky=tk.EW);x+1
+            tkinter.ttk.Separator(root, orient='horizontal').grid(row=y, columnspan=72, sticky=tk.EW);x+1
         if z ==1:
-            tkinter.ttk.Separator(frame, orient='horizontal').grid(row=y, columnspan=6, sticky=tk.EW);x+1
+            tkinter.ttk.Separator(frame, orient='horizontal').grid(row=y, columnspan=72, sticky=tk.EW);x+1
 
 
 
@@ -272,6 +285,8 @@ horizontal.separator(0)
 x=0;y=4
 def run():
     global frame
+    global selected
+    selected = {}
     x=0;y=4
     frame= tk.Frame(root)
     frame.grid(rowspan=100,columnspan = 72, sticky=tk.NSEW) 
