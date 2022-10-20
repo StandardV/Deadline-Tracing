@@ -1,11 +1,10 @@
-from ast import Delete
-from cProfile import label
-from pickletools import read_float8
+
 import tkinter as tk
 import tkinter.ttk
+from datetime import datetime, timedelta
 import time
-import sys
-import fileinput
+from unittest import skip
+
 
 onespace = " "
 longspace = "                                                         "
@@ -30,6 +29,18 @@ def oddseparator(num):
     else:
         return False
 
+def strf_interval(seconds):
+    days, remainder = divmod(seconds, 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return '{} {}{}'.format(
+            "" if int(days) == 0 else str(int(days)) + 'd',#days
+            "" if int(hours) == 0 else str(int(hours)) + 'h',#hours
+            "" if int(minutes) == 0 else str(int(minutes))  + 'm' # mins
+            #,"" if int(seconds) == 0 else str(int(seconds))  + ' secs'
+        )
+
+
 def dictionary():   
     for data1 in name:
         for data2 in var1:
@@ -38,7 +49,7 @@ def dictionary():
 
 def countline():
     count=0
-    with open("Customer.txt", 'r') as fp:
+    with open(r"D:\Largecodefile\Customer.txt", 'r') as fp:
         for count, line in enumerate(fp):
             pass
     return count+1
@@ -51,11 +62,20 @@ def appendlist():
 
 
 class readandwrite:
+    def calculation(h): 
+        if h =="(add value)":
+            return 'Need val'
+        else:
+            date_object =datetime.strptime( h, '%m/%d/%y %H:%M')
+            date_object2 = datetime.now()
+            date= timedelta.total_seconds(date_object - date_object2)
+            return strf_interval(date)
+
     def removal(i):
-        with open("Customer.txt", "r") as f:
+        with open(r"D:\Largecodefile\Customer.txt", "r") as f:
             lines = f.readlines()
         h,j = i-2,i-1
-        with open("Customer.txt", "w") as f:
+        with open(r"D:\Largecodefile\Customer.txt", "w") as f:
             for i in range(0,2):
                 f.seek(0)
                 count=0
@@ -68,7 +88,7 @@ class readandwrite:
         #    del selected[j]
 
     def removals(i):
-        with open("Customer.txt", 'r+', newline='') as f:
+        with open(r"D:\Largecodefile\Customer.txt", 'r+', newline='') as f:
             lines = f.read().splitlines()
             h, j = i-2, i-1
             # validation here is critical
@@ -82,22 +102,21 @@ class readandwrite:
         readandwrite.striplastline()
 
     def striplastline():   
-        with open("Customer.txt", "r") as f:
+        with open(r"D:\Largecodefile\Customer.txt", "r") as f:
             lines = f.readlines() 
         data = lines[-1].strip('\n')
         lines[-1] = data
-        with open("Customer.txt", "w") as f:
+        with open(r"D:\Largecodefile\Customer.txt", "w") as f:
             f.writelines(lines)
 
     def addval():
-        file = open("Customer.txt", 'a')
-
+        file = open(r"D:\Largecodefile\Customer.txt", 'a')
         file.write(f"\n{text1.get()}\n(add value)")
         file.close()
 
     def typein(h):
         #print("**********h is ",h)
-        with open("Customer.txt", 'r', encoding='utf-8') as file:
+        with open(r"D:\Largecodefile\Customer.txt", 'r', encoding='utf-8') as file:
             data = file.readlines()
 
         #print('text get is',text.get())
@@ -106,7 +125,7 @@ class readandwrite:
         else:
             data[h-1] = f"{text.get()}\n"
 
-        with open("Customer.txt", 'w', encoding='utf-8') as file:
+        with open(r"D:\Largecodefile\Customer.txt", 'w', encoding='utf-8') as file:
             file.writelines(data)
         file.close()
         
@@ -118,7 +137,7 @@ class readandwrite:
         ######selected = []  UNMARK THIS TO TUNR THINGS TO NORMAL
         
         appendlist()
-        file1 = open("Customer.txt", 'r')
+        file1 = open(r"D:\Largecodefile\Customer.txt", 'r')
         Lines = file1.readlines()
         count = 0
         for line in Lines:
@@ -127,19 +146,52 @@ class readandwrite:
             global y
             count += 1#append item in lista against since that'd cause index bug
             #print("Line{}: {}".format(count, line.strip()))#format print :count: number , line.strip() : Line details
-            horizontal.customize(line.strip())
+            horizontal.customize(line.strip(),1)
             horizontal.longspace(1)
             horizontal.smallspace(1)
             if oddseparator(count) == False:#already modified oddseparator and take out num!=1 for this
                 horizontal.checkbox(1,count-1)#horizontal.smallspace()
             horizontal.smallspace(1)
-            if (oddseparator(count) and num !=1) == True: #can change this to oddseparator function (and num != 1)
+            if (oddseparator(count)) == True: #can change this to oddseparator function (and num != 1)
+                y+=1;horizontal.separator(1);y+=1;x=0
+            #print(oddseparator(count),line.strip(),x,y) 
+
+    def readday1():
+        global count
+        global item
+        item=0##responsible for incrementing list value
+        ######selected = []  UNMARK THIS TO TUNR THINGS TO NORMAL
+        
+        appendlist()
+        file1 = open(r"D:\Largecodefile\Customer.txt", 'r')
+        Lines = file1.readlines()
+        count = 0
+        for line in Lines:
+            global frame
+            global x
+            global y
+            count += 1#append item in lista against since that'd cause index bug
+            #print("Line{}: {}".format(count, line.strip()))#format print :count: number , line.strip() : Line details
+            if (oddseparator(count)) == True:
+                horizontal.customize(readandwrite.calculation(line.strip()),2)
+            else: 
+                horizontal.customize(line.strip(),1)
+            horizontal.longspace(1)
+            horizontal.smallspace(1)
+            if oddseparator(count) == False:#already modified oddseparator and take out num!=1 for this
+                horizontal.checkbox(1,count-1)#horizontal.smallspace()
+            horizontal.smallspace(1)
+            if (oddseparator(count)) == True: #can change this to oddseparator function (and num != 1)
                 y+=1;horizontal.separator(1);y+=1;x=0
             #print(oddseparator(count),line.strip(),x,y)           
 
 
 #function for command or additional properties
 class fun():
+    def calculate():
+        frame.destroy()
+        run1()
+
     def removing():
         #global selected
         count=0
@@ -166,29 +218,39 @@ class fun():
 
     def add():
         if len(text1.get()) !=0:
+            if len(text1.get()) > 10:
+                text1.delete(10,tk.END)
             readandwrite.addval()
             frame.destroy()
             run()
     def replace():
         if len(text.get()) != 0:
-            print('selected is',len(selected))#need to fix current selected took old values
-            print('item is ',item)
+            if len(text.get()) > 14:
+                text.delete(14,tk.END)
+            elif len(text.get()) < 13:
+                return
+                #print('selected is',len(selected))#need to fix current selected took old values
+                #print('item is ',item)
             for i in range (0,len(selected)):
                 #print('i currently is ',i,'and list length', len(selected))
                 if selected[i].get() == 1:
                     val=(i+1)*2
                     readandwrite.typein(val)   
-            frame.destroy()          
-            run()
+        frame.destroy()          
+        run()
 
-            
+            #if len(customize) < 14 and (No White Space, change bg or fg to red)
 
 class horizontal:
-    def customize(h):
+    def customize(h,z):
         global x
         global custom
-        custom=tk.Label(frame, text = h, pady = 10,padx=10)
-        custom.grid(row = y ,column = x);x+=1
+        if z == 2 and ("d" in h)== False:#len(h) < 7:
+            custom=tk.Label(frame,fg='red', text = h, pady = 10,padx=10)
+            custom.grid(row = y ,column = x);x+=1
+        else:
+            custom=tk.Label(frame, text = h, pady = 10,padx=10)
+            custom.grid(row = y ,column = x);x+=1
     def longspace(z):
         global x
         if z ==0:
@@ -244,6 +306,7 @@ root = tk.Tk()
 root.geometry('525x550')
 root.resizable(False, False)
 root.configure(bg="#e6f2ee")
+root.title('Life Changer')
 
 
 
@@ -276,7 +339,7 @@ tk.Button(root,text="Add details" ,foreground="red", bg="white",padx=40, pady=2,
 #tk.Radiobutton(text="Add details" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
 #tk.Radiobutton(text="Remove details" ,foreground="red", bg="white").grid(row = y ,column = x);x+=1
 tk.Button(root,text="Remove details" ,foreground="red", bg="white",padx=20, pady=2, command= fun.removing).grid(row = y ,column = x);x+=1
-
+tk.Button(root,text="Format" ,foreground="red", bg="white",padx= 5, pady=2, command = fun.calculate).grid(row = y ,column = x);x+=1
 #row4***
 x=0;y=3
 horizontal.separator(0)
@@ -291,6 +354,14 @@ def run():
     frame= tk.Frame(root)
     frame.grid(rowspan=100,columnspan = 72, sticky=tk.NSEW) 
     readandwrite.readday()
+def run1():
+    global frame
+    global selected
+    selected = {}
+    x=0;y=4
+    frame= tk.Frame(root)
+    frame.grid(rowspan=100,columnspan = 72, sticky=tk.NSEW) 
+    readandwrite.readday1()
 run()
 
 
