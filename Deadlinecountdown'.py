@@ -72,20 +72,23 @@ class readandwrite:
             return strf_interval(date)
 
     def removal(i):
-        with open(r"D:\Largecodefile\Customer.txt", "r") as f:
-            lines = f.readlines()
-        h,j = i-2,i-1
-        with open(r"D:\Largecodefile\Customer.txt", "w") as f:
-            for i in range(0,2):
-                f.seek(0)
-                count=0
-                for line in lines:
-                    if count != j and count != h:
-                        f.write(line)
-                    count+=1
-        readandwrite.striplastline()
-        #for i in range(0,2):
-        #    del selected[j]
+        if countline() >2:
+            with open(r"D:\Largecodefile\Customer.txt", "r") as f:
+                lines = f.readlines()
+            h,j = i-2,i-1
+            with open(r"D:\Largecodefile\Customer.txt", "w") as f:
+                for i in range(0,2):
+                    f.seek(0)
+                    count=0
+                    for line in lines:
+                        if count != j and count != h:
+                            f.write(line)
+                        count+=1
+            print(countline())                   
+            readandwrite.striplastline()
+        else:
+            with open(r"D:\Largecodefile\Customer.txt", 'r+', encoding='utf-8') as update_new_proxies_file:
+                update_new_proxies_file.truncate(0)
 
     def removals(i):
         with open(r"D:\Largecodefile\Customer.txt", 'r+', newline='') as f:
@@ -111,7 +114,10 @@ class readandwrite:
 
     def addval():
         file = open(r"D:\Largecodefile\Customer.txt", 'a')
-        file.write(f"\n{text1.get()}\n(add value)")
+        if countline() >1:
+            file.write(f"\n{text1.get()}\n(add value)")
+        else:
+            file.write(f"{text1.get()}\n(add value)")
         file.close()
 
     def typein(h):
