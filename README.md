@@ -46,8 +46,11 @@
   # Personal Enhance Recomendation
   
   *Adding different page instead of scroll bar allowing to keep track of more value instead of limited value on screen
+  
   *Alarm that notify user by sound or phone notification when the time come
+  
   *Enhanced in UI
+  
   *Different ways of sorting value
   
   
