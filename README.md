@@ -45,13 +45,13 @@
   
   # Personal Enhance Recomendation
   
-  *Adding different page instead of scroll bar allowing to keep track of more value instead of limited value on screen
+  - Adding different page instead of scroll bar allowing to keep track of more value instead of limited value on screen
   
-  *Alarm that notify user by sound or phone notification when the time come
+  - Alarm that notify user by sound or phone notification when the time come
   
-  *Enhanced in UI
+  - Enhanced in UI
   
-  *Different ways of sorting value
+  - Different ways of sorting value
   
   
   All of these seem interesting but not what I need right now, therefore I won't make it, you can do it yourself since I've already lay out the idea here or if you're interested, you could contact me and I'll do it for you XD ( not free of course ). Cheers!!!
