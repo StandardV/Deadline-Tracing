@@ -53,5 +53,8 @@
   
   - Different ways of sorting value
   
+  - Adding communicating ways to AWS therefore be able to add value via alexa and remotely
+
+  - Put it on a rasberry pi
   
   All of these seem interesting but not what I need right now, therefore I won't make it, you can do it yourself since I've already lay out the idea here or if you're interested, you could contact me and I'll do it for you XD ( not free of course ). Cheers!!!
