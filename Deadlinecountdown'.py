@@ -2,7 +2,6 @@
 import tkinter as tk
 import tkinter.ttk
 from datetime import datetime, timedelta
-import time
 
 
 
