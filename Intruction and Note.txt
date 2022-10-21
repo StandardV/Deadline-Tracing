@@ -1,0 +1,70 @@
+*****Instruction and Note*****
+
+
+There are 2 ways of changing path in the program, but overall, the  absolute path must be resplaced.
+
+2 ways of replacing are: (Replace by another absolute part, or replace by file name)
+
+REPLACE BY ABSOLUTE PATH:
+
+Ctrl + F: Look for all ***r"D:\Largecodefile\Customer.txt"  *** then replace it by your path, since your machine have different path than mine, you need to replace it by your text file path, the one that are going to store all of the information
+****(doing it this way will make you won't have to put the text file in the same directory as the program)****
+
+
+REPLACE BY NAME:
+This one is easier but overall might create unexpected error
+
+Ctrl + F: Look for all ***r"D:\Largecodefile\Customer.txt"  *** then replace it by ***"Customer.txt"*** make sure that you've download or created Customer.txt and the file is in the same directory as the code
+
+-Note: You could also not create any Customer.txt file, this way the program will create one for you, but do note that terminal won't run it since' it's not in the same directory, only runable by specific IDE
+
+
+
+****How to use ****
+It's fairly easy at this point
+
+Add details: to add new deadline to your schedule (time at this point will be None, you will need to change it)
+
+Change time: Required tick into specific check box that you want after adding details, then input the time value (do note that it will have to be in specific format for it to be accepted)*further information will be explained*
+
+Remove details: remove the whole row of deadline that are available when check box are ticked, no tick mean no removal
+
+Format: Change the form of the input, double check with your time then show how long you have left on the deadline (simply press on it, easy)
+
+
+
+
+
+
+********************************Time Format *************************************
+
+This is important because you'll need to give it the input right the way you set it
+
+
+INPUT IS :        mm/dd/yy hh/mm
+
+EXAMPLE IS:       10/22/22 11:59
+
+
+with: 
+	mm: as month
+	dd: as day
+	yy: as year, but only for 2 last number (remember to add 1 space behind)
+
+	hh: as hours (counting in 24 hour time)
+	mm: as minutes
+	
+
+
+
+   *******Different ways of changing input*******
+
+AT LINE 68 OF THE PROGRAM ( h, '%m/%d/%y %H:%M') indicating the input desired
+
+As long as it's in the similar form, you can change it into whatever you like
+
+Specific ways and documents of changing are:
+
+	Youtube: https://www.youtube.com/watch?v=zY02utxcauo
+	Strptime: https://strftime.org/
+
