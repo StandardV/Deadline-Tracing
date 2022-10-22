@@ -1,7 +1,7 @@
 *****Instruction and Note*****
 
 
-There are 2 ways of changing path in the program, but overall, the  absolute path must be resplaced.
+There are 2 ways of changing path in the program, but overall, the  absolute path must be replaced.
 
 2 ways of replacing are: (Replace by another absolute part, or replace by file name)
 
